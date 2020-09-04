@@ -1,3 +1,8 @@
+"""
+From https://codeforces.com/blog/entry/65922?#comment-626315
+https://github.com/cheran-senthil/PyRival/blob/master/pyrival/misc/bootstrap.py
+"""
+
 from types import GeneratorType
 def bootstrap(f, stack=[]):
     def wrappedfunc(*args, **kwargs):
