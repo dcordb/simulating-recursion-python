@@ -1,4 +1,11 @@
-from collections.abc import Generator
+"""
+Python generator recursion, tested at:
+
+- https://codeforces.com/contest/1363/problem/E
+- https://codeforces.com/gym/102483/problem/E
+"""
+
+from types import GeneratorType
 
 mod = 10 ** 9 + 7
 
@@ -30,29 +37,33 @@ def fib(n):
 def my_recursion(gen):
     stk = [gen]
     res = None
-
+ 
     while True:
         cur = stk[-1]
         obj = None
-
-        if isinstance(cur, Generator):
-            obj = next(cur)
-
+ 
+        if type(cur) is GeneratorType:
+            try:
+                obj = next(cur)
+            except StopIteration: pass
+ 
         else:
             stk.pop()
-
+ 
             if not stk:
                 res = cur
                 break
-
-            obj = stk[-1].send(cur)
-
-        if isinstance(obj, Generator):
+            
+            try:
+                obj = stk[-1].send(cur)
+            except StopIteration: pass
+ 
+        if type(obj) is GeneratorType:
             stk.append(obj)
-
+ 
         else:
             stk[-1] = obj
-
+ 
     return res
 
-print(my_recursion(fib(1000)))
+print(my_recursion(fib(10**6)))
